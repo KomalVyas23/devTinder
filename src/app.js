@@ -1,21 +1,35 @@
 const express = require('express');
+const app = express(); 
+const { adminAuth, userAuth } = require('./middlewares/auth');
 
-const app = express();
 
-//This will only handle GET call to /user
-app.get("/user",(req, res) => {
-    res.send({firstName: "Komal", lastName: "Vyas"});
+// Handle Auth Middleware for all GET POST, .. requests
+app.use("/admin", adminAuth );
+app.use("/user", userAuth);
+
+app.post("/user/login", (req, res) => {
+  res.send('user logged In.');
 });
 
-//"/ab?c" -> here b will be optional
-// "/ab+c" -> abbbbbbbc
-// "ab*c"  -> anything can come in place of *
-// : means dynamic route
+app.get("/admin/getAllData", (req, res) => {
+  res.send("Got all user data.");
+});
 
-app.get("/user/:userId/:name/:password", (req, res) => {
-    console.log(req.params);
-    res.send({firstName: "Komal", lastName: "Vyas"});
-})
+app.post("/admin/update", (req, res) => {
+  res.send("Updated admin data.");
+});
+
+app.get("/user", userAuth, (req, res) => {
+  res.send('user Data Sent.');
+});
+
+app.post("/user/update", userAuth, (res, req) => {
+  res.send('user data updated');
+});
+
+app.delete("/user/delete", userAuth, (req, res) => {
+  res.send('user deleted');
+});
 
 app.listen(8080, () => {
     console.log("Server is successfully listening to port 8080");
