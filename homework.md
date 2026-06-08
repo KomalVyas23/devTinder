@@ -1,0 +1,19 @@
+- install cookie-parser
+- just send a dummy cookie to user
+- create GET /profile API and check if you get the cookie back
+- install jsonwebtoken
+-in login API, after email and password validation, create a JWT token and send it to user in cookie
+-read the cookie inside your profile API and find the logged user
+- userAuth middleware
+-Add the userAuth middleware in profile API and a newSendConnectionRequest API
+- Set the expiry of JWT token and cookies to 7 days
+- Create userSchema method to getJWT()
+- Create UserSchema method to comparepassword(passwordInputByUser)
+
+- Explore tinder APIs
+- Create a list of all APIs you can think in Dev Tinder
+- Group multiple routes under respective Router
+- Read documentation for express.Router
+- Create routes folder for managing auth, profile, request routers
+- create authRouter, profileRouter, requestRouter
+- Import these routers in app.js
