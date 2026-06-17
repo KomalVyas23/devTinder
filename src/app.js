@@ -36,13 +36,13 @@ const server = http.createServer(app);
 initializeSocket(server);
 
 connectDB()
-.then(() => {
-    console.log("Database connection established..");
-    app.listen(8080, () => {
-      console.log("Server is successfully listening to port 8080");
+  .then(() => {
+    console.log("Database connection established...");
+    server.listen(process.env.PORT, () => {
+      console.log("Server is successfully listening on port 7777...");
+    });
+  })
+  .catch((err) => {
+    console.error("Database cannot be connected!!");
   });
-})
-.catch((err) => {
-    console.error("Failed to connect to database.");
-});
 
