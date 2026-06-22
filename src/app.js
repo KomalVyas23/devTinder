@@ -1,3 +1,4 @@
+require("dotenv").config();
 const express = require('express');
 const app = express(); 
 const connectDB = require("./config/database");
@@ -5,14 +6,20 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const http = require("http");
 
-require("dotenv").config();
-
-require("./utils/cronjob");
+//require("./utils/cronjob");
 
 app.use(cors({
   origin: 'http://localhost:5173',
-  credentials: true,  
+  credentials: true,
+  methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
 }));
+
+app.use((err, req, res, next) => {
+  res.status(400).send("ERROR: " + err.message);
+});
+
+app.options(/(.*)/, cors());
 
 app.use(express.json());
 app.use(cookieParser());
@@ -21,7 +28,7 @@ const authRouter = require("./routes/auth");
 const profileRouter = require("./routes/profile");
 const requestRouter = require("./routes/request");
 const userRouter = require("./routes/user");
-const paymentRouter = require("./routes/payment");
+//const paymentRouter = require("./routes/payment");
 const initializeSocket = require("./utils/socket");
 const chatRouter = require("./routes/chat");
 
@@ -29,7 +36,7 @@ app.use("/", authRouter);
 app.use("/", profileRouter);
 app.use("/", requestRouter);
 app.use("/", userRouter);
-app.use("/", paymentRouter);
+//app.use("/", paymentRouter);
 app.use("/", chatRouter);
 
 const server = http.createServer(app);
