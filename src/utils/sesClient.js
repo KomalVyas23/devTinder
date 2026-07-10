@@ -11,4 +11,3 @@ const sesClient = new SESClient({
 });
 
 module.exports = { sesClient };
-// snippet-end:[ses.JavaScript.createclientv3]

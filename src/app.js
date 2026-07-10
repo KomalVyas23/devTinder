@@ -6,7 +6,7 @@ const cookieParser = require("cookie-parser");
 const cors = require("cors");
 const http = require("http");
 
-//require("./utils/cronjob");
+require("./utils/cronjob");
 
 app.use(cors({
   origin: 'http://localhost:5173',
@@ -44,7 +44,7 @@ initializeSocket(server);
 
 connectDB()
   .then(() => {
-    console.log("Database connection established...");
+  //  console.log("Database connection established...");
     server.listen(process.env.PORT, () => {
       console.log("Server is successfully listening on port 7777...");
     });
