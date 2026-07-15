@@ -11,6 +11,7 @@ const {
 
 paymentRouter.post("/payment/create", userAuth, async (req, res) => {
   try {
+     console.log("!!!!! PAYMENT CREATE ROUTE HIT !!!!!");
     const { membershipType } = req.body;
     const { firstName, lastName, emailId } = req.user;
 
@@ -38,7 +39,7 @@ paymentRouter.post("/payment/create", userAuth, async (req, res) => {
       receipt: order.receipt,
       notes: order.notes,
     });
-
+    
     const savedPayment = await payment.save();
 
     // Return back my order details to frontend
@@ -55,7 +56,7 @@ paymentRouter.post("/payment/webhook", async (req, res) => {
     console.log("Webhook Signature", webhookSignature);
 
     const isWebhookValid = validateWebhookSignature(
-      JSON.stringify(req.body),
+      req.body, 
       webhookSignature,
       process.env.RAZORPAY_WEBHOOK_SECRET
     );
@@ -70,6 +71,8 @@ paymentRouter.post("/payment/webhook", async (req, res) => {
     const paymentDetails = req.body.payload.payment.entity;
 
     const payment = await Payment.findOne({ orderId: paymentDetails.order_id });
+    payment.status = paymentDetails.status;
+    payment.paymentId = paymentDetails.id;
     payment.status = paymentDetails.status;
     await payment.save();
     console.log("Payment saved");
@@ -98,11 +101,7 @@ paymentRouter.post("/payment/webhook", async (req, res) => {
 
 paymentRouter.get("/premium/verify", userAuth, async (req, res) => {
   const user = req.user.toJSON();
-  console.log(user);
-  if (user.isPremium) {
-    return res.json({ ...user });
-  }
-  return res.json({ ...user });
+  res.json({ ...user });
 });
 
 module.exports = paymentRouter;
