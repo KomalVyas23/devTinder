@@ -42,14 +42,9 @@ const userSchema = new mongoose.Schema(
     gender: {
       type: String,
       enum: {
-        values: ["male", "female", "other"],
+        values: ["male", "female", "other", ""],
         message: `{VALUE} is not a valid gender type`,
       },
-      // validate(value) {
-      //   if (!["male", "female", "others"].includes(value)) {
-      //     throw new Error("Gender data is not valid");
-      //   }
-      // },
     },
     isPremium: {
       type: Boolean,
@@ -60,9 +55,10 @@ const userSchema = new mongoose.Schema(
     },
     photoUrl: {
       type: String,
-      default: "https://geographyandyou.com/images/user-profile.png",
+      // no forced default image and no gender-based logic —
+      // the frontend shows an initials avatar until the user uploads one
       validate(value) {
-        if (!validator.isURL(value)) {
+        if (value && !validator.isURL(value)) {
           throw new Error("Invalid Photo URL: " + value);
         }
       },
