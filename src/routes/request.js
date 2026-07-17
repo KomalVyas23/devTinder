@@ -12,7 +12,6 @@ requestRouter.post(
   userAuth,
   async (req, res) => {
     try {
-       console.log("!!!!! REQUEST ROUTE - VERSION CHECK !!!!!");
       const fromUserId = req.user._id;
       const toUserId = req.params.toUserId;
       const status = req.params.status;
@@ -49,11 +48,6 @@ requestRouter.post(
 
       const data = await connectionRequest.save();
 
-      // const emailRes = await sendEmail.run(
-      //   "A new friend request from " + req.user.firstName,
-      //   req.user.firstName + " is " + status + " in " + toUser.firstName
-      // );
-      // console.log(emailRes);
 
       res.json({
         message:
