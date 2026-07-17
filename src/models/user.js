@@ -63,6 +63,14 @@ const userSchema = new mongoose.Schema(
         }
       },
     },
+    linkedinUrl: {
+      type: String,
+      validate(value) {
+        if (value && !validator.isURL(value)) {
+          throw new Error("Invalid LinkedIn URL: " + value);
+        }
+      },
+    },
     about: {
       type: String,
       default: "This is a default about of the user!",
